@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -118,10 +119,11 @@ namespace CityShob.ToDo.Client
 
         private void ConfigureLogging(IServiceCollection services)
         {
+            var pid = Process.GetCurrentProcess().Id;
             string logPath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "CityShob.ToDo",
-                "logs/client-.txt");
+                $"logs/client-{pid}-.txt");
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
