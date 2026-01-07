@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="CityShob.ToDo.Client.Views.NewTaskView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="600">
+
+    <materialDesign:Card Margin="15,10,15,20" Padding="10" UniformCornerRadius="8" 
+                         materialDesign:ElevationAssist.Elevation="Dp4">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" 
+                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="10,0"
+                     materialDesign:HintAssist.Hint="Add a task"
+                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                     BorderThickness="0"
+                     FontSize="14"
+                     VerticalAlignment="Center">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SubmitCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+
+                <TextBox Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged}"
+                         Width="100"
+                         Margin="0,0,10,0"
+                         materialDesign:HintAssist.Hint="Tags"
+                         materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                         materialDesign:TextFieldAssist.LeadingIcon="TagOutline"
+                         materialDesign:TextFieldAssist.LeadingIconSize="16"
+                         BorderThickness="0"
+                         VerticalAlignment="Center"
+                         FontSize="13">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SubmitCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <Grid Margin="0,0,5,0">
+                    <DatePicker x:Name="HiddenDatePicker" 
+                                SelectedDate="{Binding DueDate}" 
+                                Width="0" Opacity="0" Focusable="False"/>
+
+                    <Button Style="{StaticResource MaterialDesignToolButton}"
+                            ToolTip="Set Due Date"
+                            Click="OpenDatePicker_Click">
+
+                        <materialDesign:PackIcon VerticalAlignment="Center">
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Kind" Value="CalendarCheck"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                    <Setter Property="Opacity" Value="1.0"/>
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DueDate}" Value="{x:Null}">
+                                            <Setter Property="Kind" Value="CalendarBlankOutline"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+                                            <Setter Property="Opacity" Value="0.6"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+                    </Button>
+                </Grid>
+
+                <Button Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Set Priority"
+                        x:Name="PriorityButton"
+                        Click="PriorityButton_Click">
+                    <materialDesign:PackIcon Kind="FlagOutline">
+                        <materialDesign:PackIcon.Style>
+                            <Style TargetType="materialDesign:PackIcon">
+                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Priority}" Value="High">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                        <Setter Property="Opacity" Value="1.0"/>
+                                        <Setter Property="Kind" Value="Flag"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding Priority}" Value="Medium">
+                                        <Setter Property="Foreground" Value="Orange"/>
+                                        <Setter Property="Opacity" Value="1.0"/>
+                                    </DataTrigger>
+                                    
+                                    <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                        <Setter Property="Foreground" Value="Green"/>
+                                        <Setter Property="Opacity" Value="1.0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:PackIcon.Style>
+                    </materialDesign:PackIcon>
+
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="High" Click="SetPriority_Click" Tag="High" Foreground="Red">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Flag" Foreground="Red"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Medium" Click="SetPriority_Click" Tag="Medium" Foreground="Orange">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Flag" Foreground="Orange"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Low" Click="SetPriority_Click" Tag="Low" Foreground="Green">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Flag" Foreground="Green"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </StackPanel>
+
+            <Button Grid.Column="2" 
+                    Command="{Binding SubmitCommand}"
+                    ToolTip="Add Task">
+
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.IsConnected, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <materialDesign:PackIcon Kind="ArrowUpBold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+            </Button>
+        </Grid>
+    </materialDesign:Card>
+</UserControl>

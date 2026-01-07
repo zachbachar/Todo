@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="CityShob.ToDo.Client.Tests/CityShob.ToDo.Client.Tests.csproj" Id="8694381b-533f-477a-8ec6-6ecb185f2d86" />
+  <Project Path="CityShob.ToDo.Client/CityShob.ToDo.Client.csproj" Id="32ea3285-09c6-4208-b63c-b338ad807e85" />
+  <Project Path="CityShob.ToDo.Contract/CityShob.ToDo.Contract.csproj" Id="1a5e78d1-ded8-4d5b-93d4-235e6e77f242" />
+  <Project Path="CityShob.ToDo.Server.Tests/CityShob.ToDo.Server.Tests.csproj" Id="69f6f5d5-08a4-4d43-b59c-12839e5ae52a" />
+  <Project Path="CityShob.ToDo.Server/CityShob.ToDo.Server.csproj" Id="8db633ce-ae1a-4f4b-847b-a851442da7f5" />
+</Solution>
